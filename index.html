@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Markert007 | AI Marketing Agent</title>
+<meta name="description" content="Create better ads, understand your customers and improve your sales with an AI marketing assistant built for Bulawayo businesses.">
+<meta name="robots" content="index, follow">
+<style>
+:root{--bg:#fff;--ink:#111;--mute:#6b6b6b;--line:#e3e3e3;--soft:#f5f5f5;--bad:#b42318}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+#side{width:272px;background:var(--soft);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:12px;gap:8px;flex-shrink:0;height:100%;padding-top:max(12px,env(safe-area-inset-top))}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;letter-spacing:-.03em;padding:4px 6px}
+.mark{width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:800}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;font-weight:600;text-align:left}
+.btn:hover{background:var(--soft)}
+.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dark:hover{background:#333}
+#search{width:100%;border:1px solid var(--line);border-radius:10px;padding:8px 11px;background:#fff;outline:none}
+.sec{font-size:12px;font-weight:700;color:var(--mute);padding:8px 6px 2px}
+#list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:2px;min-height:60px}
+.conv{display:flex;align-items:center;gap:4px;border-radius:9px;padding:2px 4px 2px 10px}
+.conv:hover,.conv.on{background:#e9e9e9}
+.conv span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 0;font-size:14px;cursor:pointer}
+.ic{border:0;background:transparent;border-radius:7px;padding:4px 6px;color:var(--mute);font-size:13px}
+.ic:hover{background:#d8d8d8;color:var(--ink)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{border:0;background:transparent;text-align:left;padding:8px 10px;border-radius:9px;font-size:14px;font-weight:600}
+.nav button:hover{background:#e9e9e9}
+.prof{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 10px;text-align:left;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.av{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex-shrink:0}
+.prof small{display:block;color:var(--mute);font-size:12px;line-height:1.2}
+main{flex:1;display:flex;flex-direction:column;min-width:0;height:100%}
+.top{display:none;align-items:center;gap:10px;padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:1px solid var(--line)}
+#chat{flex:1;overflow:auto;padding:24px 16px}
+.col{max-width:760px;margin:auto}
+.welcome{text-align:center;padding:9vh 0 10px}
+.welcome h1{font-size:clamp(28px,5vw,40px);letter-spacing:-.04em;margin:0 0 8px;line-height:1.1}
+.welcome p{color:var(--mute);margin:0 0 26px;font-size:17px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
+.act{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px 16px;font-weight:650}
+.act:hover{background:var(--soft)}
+.act small{display:block;color:var(--mute);font-weight:400;font-size:13px;margin-top:2px}
+.msg{margin:0 0 18px;display:flex;flex-direction:column}
+.msg.u{align-items:flex-end}
+.bub{max-width:88%;overflow-wrap:anywhere}
+.u .bub{background:var(--soft);border-radius:18px;padding:9px 15px;white-space:pre-wrap}
+.a .bub{max-width:100%}
+.a .bub ul{margin:6px 0;padding-left:20px}
+.err .bub{color:var(--bad);border:1px solid var(--bad);border-radius:12px;padding:9px 13px;font-size:14px}
+.tools{display:flex;gap:6px;margin-top:6px}
+.tools button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:3px 10px;font-size:13px}
+.tools button:hover{background:var(--soft)}
+.note{font-size:13px;color:var(--mute);margin-top:4px}
+#dock{padding:8px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+.box{max-width:760px;margin:auto;border:1px solid #cfcfcf;border-radius:22px;padding:8px 10px;display:flex;align-items:flex-end;gap:6px;background:#fff}
+#inp{flex:1;border:0;outline:0;resize:none;max-height:160px;padding:7px 4px;background:transparent}
+.round{width:36px;height:36px;border-radius:50%;border:0;display:grid;place-items:center;flex-shrink:0;font-size:18px;background:transparent}
+.round:hover{background:var(--soft)}
+#send{background:var(--ink);color:#fff}
+#send:disabled{background:#bbb}
+#thumbs{max-width:760px;margin:0 auto 6px;display:flex;gap:8px;flex-wrap:wrap}
+.th{position:relative}
+.th img{width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.th button{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:12px;line-height:1}
+.fine{text-align:center;font-size:12px;color:var(--mute);margin-top:6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:30}
+.modal.show{display:flex}
+.card{background:#fff;border-radius:18px;max-width:600px;width:100%;max-height:88vh;overflow:auto;padding:20px}
+.card h2{margin:0 0 4px;font-size:21px;letter-spacing:-.02em}
+.card label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}
+.card input,.card select,.card textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+.row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;font-size:14px}
+.item h4{margin:0 0 4px;font-size:15px}
+.item p{margin:3px 0}
+.item pre{white-space:pre-wrap;font:inherit;margin:6px 0}
+.tag{display:inline-block;background:var(--soft);border-radius:99px;padding:2px 9px;font-size:12px;font-weight:700}
+.muted{color:var(--mute);font-size:14px}
+@media(max-width:800px){
+ #side{position:fixed;left:0;top:0;bottom:0;z-index:20;transform:translateX(-100%);transition:transform .2s;width:min(300px,86vw)}
+ #side.open{transform:none}
+ .top{display:flex}
+ .acts{grid-template-columns:1fr}
+ .bub{max-width:94%}
+}
+@media(prefers-reduced-motion:reduce){#side{transition:none}}
+</style>
+</head>
+<body>
+<aside id="side" aria-label="Sidebar">
+ <div class="logo"><div class="mark">M</div>Markert007</div>
+ <button class="btn dark" id="newBtn">+ New chat</button>
+ <input id="search" type="search" placeholder="Search conversations" aria-label="Search conversations">
+ <div class="sec">Recent</div>
+ <div id="list"></div>
+ <div class="nav">
+  <button data-m="saved">Saved work</button>
+  <button data-m="tools">Marketing tools</button>
+  <button data-m="examples">Examples of good ads</button>
+  <button data-m="settings">Settings</button>
+ </div>
+ <button class="prof" data-m="settings"><div class="av" id="av">Y</div><div><b id="pn">Your business</b><small id="ps">Tap to set up</small></div></button>
+</aside>
+<main>
+ <div class="top"><button class="round" id="menu" aria-label="Open menu">☰</button><div class="logo"><div class="mark">M</div>Markert007</div></div>
+ <div id="chat"><div class="col" id="msgs"></div></div>
+ <div id="dock">
+  <div id="thumbs"></div>
+  <div class="box">
+   <button class="round" id="attach" aria-label="Attach image">＋</button>
+   <input type="file" id="file" accept="image/*" multiple hidden>
+   <textarea id="inp" rows="1" placeholder="Describe your business or paste a customer message…" aria-label="Message"></textarea>
+   <button class="round" id="send" aria-label="Send">↑</button>
+  </div>
+  <div class="fine">AI can make mistakes. Check prices, claims and details before you publish. Hide names and phone numbers in screenshots.</div>
+ </div>
+</main>
+<div class="modal" id="modal"><div class="card" id="card" role="dialog" aria-modal="true"></div></div>
+
+<script>
+var SYS="You are Markert007, an expert AI marketing and sales agent.\n\nHelp users create advertisements, educational content, product promotions, and ethical sales messages.\n\nWork conversationally, like a helpful AI assistant.\n\nUnderstand the user's request and provide useful outputs directly. Ask concise follow-up questions when essential information is missing.\n\nUse the user's business information, target audience, confirmed product details, uploaded images and screenshots.\n\nWhen creating advertisements:\n* Use appropriate headlines and hooks.\n* Address relevant customer problems.\n* Explain confirmed benefits.\n* Match the selected platform.\n* Include a suitable call to action.\n* Generate original content.\n* Offer revisions when requested.\n\nWhen analysing products:\n* Describe visible information accurately.\n* Distinguish facts from assumptions.\n* Ask for confirmation of uncertain details.\n* Do not invent product benefits.\n\nWhen analysing customer conversations:\n* Use visible messages as evidence.\n* Identify possible buying signals and objections.\n* Avoid claiming certainty about the prospect's thoughts.\n* Recommend a helpful next step.\n* Write a natural reply.\n\nNever invent testimonials, statistics, guarantees, prices, or product results.\n\nDo not promise that an advertisement will definitely generate sales.\n\nMaintain a professional, helpful, and conversational tone.\n\nYour goal is to help businesses attract suitable customers, communicate value, and improve sales.";
+var PLAYBOOK="\n\nYOUR BUILT-IN PLAYBOOK (general professional marketing and sales practice; do not cite books or invent sources):\n1 COPYWRITING: Headlines capture attention by naming the customer's problem or desired result. Hooks make the reader want the next line. Offers make buying attractive: clear result, fair price, honest bonuses or guarantees only if the user supplied them. A call to action tells people exactly one next step. Persuasion communicates value and answers concerns. Weak: 'Buy our marketing services.' Better: 'Struggling to get customers? Learn five simple ways to turn more enquiries into paying customers.'\n2 PROSPECTING: cold calling, WhatsApp outreach, social media, referrals, networking and researching businesses. Keep outreach short, relevant and respectful; one question or one idea per first message.\n3 MARKET RESEARCH: find the ideal customer, their problems, the results they want, why they might not buy, what they already tried and the exact words they use. Ask the user for these before guessing.\n4 QUESTIONING: understand before recommending. Use open questions such as 'How are you currently getting customers?', 'What is your biggest challenge with sales?', 'What have you tried so far?', 'What would improving this mean for your business?'\n5 SALES PSYCHOLOGY: trust, desire, risk, convenience, social proof, perceived value and fear of a wrong decision. Use these honestly and never manipulate or invent proof.\n6 OBJECTIONS: for 'too expensive', 'I need to think about it', 'I don't trust this yet', 'I'll get back to you', 'I already have someone': acknowledge, ask what is behind it, address the real concern, never argue.\n7 CLOSING: recognise buying signals, summarise the customer's needs, explain how the offer meets them, answer remaining questions, then ask for the sale naturally.\n8 WELL-KNOWN FRAMEWORKS (ideas only, in your own words; never quote or claim to have read any book): VALUE EQUATION: an offer feels more valuable when the dream result and the likelihood of getting it are higher, and when waiting time and effort are lower; build offers by raising the first two and cutting the last two, add real bonuses, and use guarantees or urgency only if the user supplied them. FOUR WAYS TO GET CUSTOMERS: warm outreach, cold outreach, free helpful content and paid ads; a free useful guide or tip earns attention before any pitch. STORYBRAND: the customer is the hero with a problem, the business is the guide who shows empathy and authority, gives a simple plan, calls the customer to act, helps them avoid failure and describes success. SPIN QUESTIONS: ask about the Situation, then Problems, then the Implications of those problems, then the Need-payoff of fixing them. CHALLENGER APPROACH: teach the prospect something useful about their business, tailor it to them and guide the conversation with confidence. LIFE-FORCE DESIRES: people are driven by safety, comfort, freedom from fear, status, approval and care for loved ones; connect honest benefits to these. POSITIONING: own one clear idea or category in the customer's mind instead of claiming to be good at everything. ATTUNEMENT, BUOYANCY, CLARITY: see things from the prospect's side, stay positive after rejection and make the problem and next step clear. Trust and credibility close more sales than pressure.\nAS AN AGENT: be proactive. After each deliverable, suggest the best next step (a follow-up message, an A/B headline, a WhatsApp Status sequence or a reply to a likely objection) and offer it. Write ad copy as headline and copy only, no image descriptions, unless asked.";
+var EXTRA="\n\nAdditional rules: Write clear, usable marketing copy, not advice about how to write it. When a user revises something, edit the existing version instead of starting over. For ads collect: business, product, target customer, customer problem, desired result, confirmed benefits, offer and price, platform, desired action. If an image is attached, first separate what is visible from what is assumed and ask the user to confirm key details. For customer chat screenshots give: summary, buying signals, questions and objections, an estimated position (Ready to buy / Interested / Price-sensitive / Needs more information / Has an objection / Just exploring / Not currently interested / Unclear) with the evidence, the next action, and a suggested reply, and say these are estimates. Keep English simple and local to Zimbabwe unless asked otherwise. Never claim you can access WhatsApp directly.";
+var TASKS={
+ ad:{t:"Create an Advertisement",d:"Facebook, WhatsApp, Instagram and more",u:"I want to create an advertisement.",i:"The user wants an advertisement. Ask concise questions only for missing essentials (product, customer, confirmed benefits, platform), then write it."},
+ prod:{t:"Analyse a Product",d:"Attach a photo to find ad angles",u:"I want you to analyse my product.",i:"The user wants a product analysis. Ask them to attach a photo or describe the product. Then describe what is visible, list what is uncertain, suggest customer groups, angles and platforms."},
+ chat:{t:"Analyse a Customer Chat",d:"Attach a screenshot, get the next reply",u:"I want to analyse a customer conversation.",i:"The user wants a customer chat analysed. Tell them to attach a screenshot or paste the messages, and to hide unnecessary personal details first."},
+ script:{t:"Create a Sales Script",d:"First contact, objections, follow-ups",u:"I want a sales script.",i:"The user wants a sales script. Ask what they sell, who the prospect is and the situation (first contact, price objection, follow-up, closing or re-engagement)."}
+};
+var FORMATS=["Facebook ad","WhatsApp Status ads","WhatsApp Channel post","Free educational content","High Value Content Offer","Instagram caption","TikTok script","Product description","Promotional email","Landing-page copy","Short video ad","Follow-up message"];
+var EX=[
+{t:"Facebook ad: hair salon",a:"Women 20–35 who want braids that last",g:"Problem and solution",h:"Braids that still look neat in week four",p:"Tired of braids that frizz after a few days.",c:"Message us to book your slot.",w:"It names a specific problem, promises a specific result and asks for one clear action."},
+{t:"WhatsApp Status: phone shop",a:"Students needing a reliable phone",g:"Product demonstration",h:"See it before you pay",p:"Customers worry about buying a phone that fails.",c:"Reply \"TEST\" and we will show you it working.",w:"A low-risk first step lets the customer act without pressure."},
+{t:"WhatsApp Channel: spice shop",a:"Home cooks",g:"Free educational content",h:"3 ways to keep spices fresh for longer",p:"Spices lose flavour when stored badly.",c:"Follow the channel for a tip each week.",w:"Useful tips build trust before any offer is made."},
+{t:"Lead generation: tailoring shop",a:"People who are unsure what suits their figure",g:"High Value Content Offer",h:"Free guide: dress shapes that suit your figure",p:"Not knowing what suits you wastes money.",c:"Send \"GUIDE\" on WhatsApp to get it free.",w:"A free, valuable resource attracts people who are already interested."}
+];
+// Paste your Cloudflare Worker URL here (e.g. "https://markert007.yourname.workers.dev"). When set, visitors need no AI key.
+var PROXY="https://icy-glade-98e7.moyo-lungile.workers.dev";
+var $=function(i){return document.getElementById(i)};
+var KEY="mg_ai_v1",KK="mg_ai_key";
+var S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+S=S||{convs:[],cur:null,saved:[],kb:[],set:{provider:"gemini",model:"",base:"https://api.openai.com/v1",biz:"",desc:"",remember:true}};
+var pend=[],busy=false;
+function store(){try{localStorage.setItem(KEY,JSON.stringify(S,function(k,v){return k==="im"?undefined:v}))}catch(e){}}
+function ready(){return !!(PROXY||getKey())}
+function getKey(){try{return localStorage.getItem(KK)||sessionStorage.getItem(KK)||""}catch(e){return ""}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function md(t){var h=esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/^#{1,4} (.+)$/gm,"<b>$1</b>");
+ var L=h.split("\n"),o="",ul=false;
+ L.forEach(function(l){var m=l.match(/^\s*[-*•] (.+)/);if(m){if(!ul){o+="<ul>";ul=true}o+="<li>"+m[1]+"</li>"}else{if(ul){o+="</ul>";ul=false}o+=l+"<br>"}});
+ return o+(ul?"</ul>":"")}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function cur(){return S.convs.filter(function(c){return c.id===S.cur})[0]}
+function newChat(){S.cur=null;pend=[];drawThumbs();draw();$("side").classList.remove("open")}
+function mk(task){var c={id:uid(),title:"New chat",task:task||"",msgs:[],ts:Date.now()};S.convs.unshift(c);S.cur=c.id;return c}
+
+/* ---------- sidebar and chat ---------- */
+function drawList(){var q=$("search").value.toLowerCase(),b=$("list");b.innerHTML="";
+ S.convs.filter(function(c){return !q||(c.title+JSON.stringify(c.msgs)).toLowerCase().indexOf(q)>-1}).forEach(function(c){
+  var d=document.createElement("div");d.className="conv"+(c.id===S.cur?" on":"");
+  d.innerHTML="<span></span><button class='ic' title='Rename'>✎</button><button class='ic' title='Delete'>✕</button>";
+  d.children[0].textContent=c.title;
+  d.children[0].onclick=function(){S.cur=c.id;draw();$("side").classList.remove("open")};
+  d.children[1].onclick=function(){var n=prompt("Rename conversation",c.title);if(n&&n.trim()){c.title=n.trim().slice(0,60);store();drawList()}};
+  d.children[2].onclick=function(){if(confirm("Delete this conversation?")){S.convs=S.convs.filter(function(x){return x!==c});if(S.cur===c.id)S.cur=null;store();draw()}};
+  b.appendChild(d)});
+ if(!b.children.length)b.innerHTML="<div class='muted' style='padding:6px 10px'>No conversations yet.</div>";
+ var n=S.set.biz||"Your business";$("pn").textContent=n;$("av").textContent=n.charAt(0).toUpperCase();$("ps").textContent=ready()?"AI connected":"Tap to set up"}
+function draw(){drawList();var c=cur(),m=$("msgs");m.innerHTML="";
+ if(!c){m.innerHTML="<div class='welcome'><h1>Markert007</h1><p style='margin:0 0 6px;font-weight:650;color:var(--ink)'>Your AI Marketing Assistant</p><p>Create better ads. Understand your customers. Improve your sales.</p><div class='acts'></div></div>";
+  Object.keys(TASKS).forEach(function(k,i){var b=document.createElement("button");b.className="act";b.innerHTML=(i+1)+". "+esc(TASKS[k].t)+"<small>"+esc(TASKS[k].d)+"</small>";b.onclick=function(){start(k)};m.querySelector(".acts").appendChild(b)});
+  if(!ready()){var n=document.createElement("p");n.className="muted";n.style.textAlign="center";n.style.marginTop="18px";n.innerHTML="First, connect an AI key in <a href='#' id='goset'>Settings</a> so the assistant can reply.";m.firstChild.appendChild(n);$("goset").onclick=function(e){e.preventDefault();modal("settings")}}
+  return}
+ c.msgs.forEach(function(x,i){addMsg(x,i)});$("chat").scrollTop=1e9}
+function addMsg(x,i){var d=document.createElement("div"),r=x.r;d.className="msg "+(r==="u"?"u":r==="e"?"a err":"a");
+ var b=document.createElement("div");b.className="bub";
+ if(r==="u"){b.textContent=x.t+(x.n?"\n[📎 "+x.n+" image"+(x.n>1?"s":"")+" attached]":"")}else b.innerHTML=md(x.t);
+ d.appendChild(b);
+ if(r==="a"){var t=document.createElement("div");t.className="tools";
+  t.innerHTML="<button>Copy</button><button>Save</button>";
+  t.children[0].onclick=function(e){copy(x.t,e.target)};
+  t.children[1].onclick=function(e){S.saved.unshift({id:uid(),t:x.t,title:(cur().title||"Saved").slice(0,50),ts:Date.now()});store();e.target.textContent="Saved ✓"};
+  d.appendChild(t)}
+ $("msgs").appendChild(d)}
+function copy(t,btn){var ok=function(){if(btn){var o=btn.textContent;btn.textContent="Copied ✓";setTimeout(function(){btn.textContent=o},1400)}};
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,function(){fb()});else fb();
+ function fb(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){alert("Copy failed. Please select the text and copy it manually.")}a.remove()}}
+function start(k){if(!ready()){modal("settings","Connect an AI key first so the assistant can reply.");return}
+ var c=mk(TASKS[k].i);submit(TASKS[k].u,c)}
+
+/* ---------- images ---------- */
+$("attach").onclick=function(){$("file").click()};
+$("file").onchange=function(e){var fs=[].slice.call(e.target.files).slice(0,4);fs.forEach(function(f){
+ var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,1280/Math.max(im.width,im.height)),cv=document.createElement("canvas");cv.width=im.width*s;cv.height=im.height*s;cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);
+  var u=cv.toDataURL("image/jpeg",.82);pend.push({mime:"image/jpeg",data:u.split(",")[1],url:u});drawThumbs()};im.onerror=function(){alert("That file could not be read as an image.")};im.src=r.result};r.readAsDataURL(f)});
+ if(fs.length)alert("Privacy reminder: if this is a customer chat, hide names, phone numbers and other personal details before you send it.");e.target.value=""};
+function drawThumbs(){var b=$("thumbs");b.innerHTML="";pend.forEach(function(p,i){var d=document.createElement("div");d.className="th";d.innerHTML="<img alt='Attached image'><button aria-label='Remove'>✕</button>";d.firstChild.src=p.url;d.lastChild.onclick=function(){pend.splice(i,1);drawThumbs()};b.appendChild(d)})}
+
+/* ---------- AI call ---------- */
+function history(c){return c.msgs.filter(function(m){return m.r==="u"||m.r==="a"})}
+async function callAI(c,q){var st=S.set,key=getKey();if(!PROXY&&!key)throw new Error("No API key. Open Settings and add one.");
+ var sys=SYS+EXTRA+PLAYBOOK;
+ if(st.biz||st.desc)sys+="\n\nBUSINESS PROFILE (from the user's settings):\nBusiness: "+(st.biz||"not given")+"\nAbout: "+(st.desc||"not given");
+ if(c.task)sys+="\n\nTASK FOR THIS CONVERSATION:\n"+c.task;
+ var h=history(c),prov=st.provider,res,data;
+ if(PROXY){var pr=await fetch(PROXY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({system:sys,messages:h.map(function(m){return{role:m.r==="u"?"user":"model",text:m.t,images:(m.im||[]).map(function(i){return{data:i.data}})}})})});data=await pr.json().catch(function(){return{}});if(!pr.ok||!data.text)throw new Error(data.error||("Server error ("+pr.status+")"));return data.text}
+ if(prov==="gemini"){var model=st.model||"gemini-3.6-flash";
+  var contents=h.map(function(m){var p=[{text:m.t}];(m.im||[]).forEach(function(i){p.push({inlineData:{mimeType:i.mime,data:i.data}})});return{role:m.r==="u"?"user":"model",parts:p}});
+  res=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(model)+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents:contents})});
+  data=await res.json().catch(function(){return{}});if(!res.ok)throw new Error((data.error&&data.error.message)||("Request failed ("+res.status+")"));
+  var t=((data.candidates||[])[0]||{}).content;t=t&&t.parts?t.parts.map(function(p){return p.text||""}).join(""):"";if(!t)throw new Error("The model returned no text (it may have blocked the request). Try rewording.");return t}
+ var msgs=[{role:"system",content:sys}].concat(h.map(function(m){if(m.r==="a"||!(m.im||[]).length)return{role:m.r==="u"?"user":"assistant",content:m.t};return{role:"user",content:[{type:"text",text:m.t}].concat(m.im.map(function(i){return{type:"image_url",image_url:{url:"data:"+i.mime+";base64,"+i.data}}}))}}));
+ res=await fetch((st.base||"https://api.openai.com/v1").replace(/\/$/,"")+"/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},body:JSON.stringify({model:st.model||"gpt-4o-mini",messages:msgs})});
+ data=await res.json().catch(function(){return{}});if(!res.ok)throw new Error((data.error&&data.error.message)||("Request failed ("+res.status+")"));
+ var o=data.choices&&data.choices[0]&&data.choices[0].message;if(!o||!o.content)throw new Error("The model returned no text.");return o.content}
+async function submit(text,c){if(busy)return;text=(text||"").trim();if(!text&&!pend.length)return;
+ if(!ready()){modal("settings","Connect an AI key first so the assistant can reply.");return}
+ c=c||cur()||mk();var um={r:"u",t:text||"Please look at the attached image.",n:pend.length,im:pend.map(function(p){return{mime:p.mime,data:p.data}})};
+ c.msgs.push(um);if(c.title==="New chat")c.title=um.t.slice(0,40);
+ pend=[];drawThumbs();$("inp").value="";grow();busy=true;$("send").disabled=true;store();draw();
+ var w=document.createElement("div");w.className="msg a";w.innerHTML="<div class='bub muted'>Thinking…</div>";$("msgs").appendChild(w);$("chat").scrollTop=1e9;
+ try{var r=await callAI(c,um.t+" "+(c.msgs.length>2?c.msgs[c.msgs.length-3].t:""));c.msgs.push({r:"a",t:r})}
+ catch(e){c.msgs.push({r:"e",t:"Could not get a reply: "+(e.message||e)+" (Check your key, model name and internet connection in Settings.)"})}
+ busy=false;$("send").disabled=false;store();draw()}
+
+/* ---------- modals ---------- */
+function modal(k,msg){var c=$("card"),h="";
+ if(k==="settings"){var s=S.set;h="<h2>Settings</h2>"+(msg?"<p style='color:var(--bad);margin:4px 0'>"+esc(msg)+"</p>":"")+"<p class='muted'>This site has no server. Your AI key stays in this browser and is sent only to the AI provider you choose. Get a free Google Gemini key at aistudio.google.com/apikey.</p>"+
+  "<label>AI provider</label><select id='s_p'><option value='gemini'>Google Gemini</option><option value='openai'>OpenAI-compatible (OpenAI, Groq, OpenRouter…)</option></select>"+
+  "<label>API key</label><input id='s_k' type='password' autocomplete='off' placeholder='Paste your key'>"+
+  "<label>Model (optional)</label><input id='s_m' placeholder='gemini-3.6-flash or gpt-4o-mini'>"+
+  "<label>API base URL (OpenAI-compatible only)</label><input id='s_b'>"+
+  "<label style='display:flex;gap:8px;align-items:center;font-weight:600'><input id='s_r' type='checkbox' style='width:auto'> Remember the key on this device</label>"+
+  "<label>Your business name</label><input id='s_n' placeholder='e.g. Glow Beauty Studio'>"+
+  "<label>About your business (used in every reply)</label><textarea id='s_d' rows='3' placeholder='What you sell, where, and who your customers are'></textarea>"+
+  "<div class='row'><button class='btn dark' id='s_save'>Save</button><button class='btn' id='s_clear'>Delete all my data</button><button class='btn' data-close>Close</button></div>"}
+ if(k==="tools"){h="<h2>Marketing tools</h2><p class='muted'>Pick a format and the assistant will ask for what it needs.</p><div class='row'>"+FORMATS.map(function(f,i){return"<button class='btn' data-f='"+i+"'>"+esc(f)+"</button>"}).join("")+"</div><div class='row'><button class='btn' data-close>Close</button></div>"}
+ if(k==="saved"){h="<h2>Saved work</h2>"+(S.saved.length?S.saved.map(function(x,i){return"<div class='item'><h4>"+esc(x.title)+"</h4><pre>"+esc(x.t)+"</pre><div class='row' style='margin:0'><button class='btn' data-c='"+i+"'>Copy</button><button class='btn' data-d='"+i+"'>Delete</button></div></div>"}).join(""):"<p class='muted'>Nothing saved yet. Use Save under any reply.</p>")+"<div class='row'><button class='btn' data-close>Close</button></div>"}
+ if(k==="examples"){h="<h2>Examples of good ads</h2><p class='muted'>All examples are fictional and written to show structure. They are not real results and no performance claims are made.</p>"+EX.map(function(x,i){return"<div class='item'><span class='tag'>Fictional example</span> <span class='tag'>"+esc(x.g)+"</span><h4 style='margin-top:6px'>"+esc(x.t)+"</h4><p><b>Audience:</b> "+esc(x.a)+"</p><p><b>Headline:</b> "+esc(x.h)+"</p><p><b>Problem:</b> "+esc(x.p)+"</p><p><b>Call to action:</b> "+esc(x.c)+"</p><p><b>Why it may work:</b> "+esc(x.w)+"</p><button class='btn' data-e='"+i+"'>Create something similar</button></div>"}).join("")+"<div class='row'><button class='btn' data-close>Close</button></div>"}
+ c.innerHTML=h;$("modal").classList.add("show");
+ if(k==="settings"){var s=S.set;$("s_p").value=s.provider;$("s_k").value=getKey();$("s_m").value=s.model||"";$("s_b").value=s.base||"";$("s_r").checked=s.remember!==false;$("s_n").value=s.biz||"";$("s_d").value=s.desc||"";
+  $("s_save").onclick=function(){s.provider=$("s_p").value;s.model=$("s_m").value.trim();s.base=$("s_b").value.trim();s.biz=$("s_n").value.trim();s.desc=$("s_d").value.trim();s.remember=$("s_r").checked;
+   var v=$("s_k").value.trim();try{localStorage.removeItem(KK);sessionStorage.removeItem(KK);if(v)(s.remember?localStorage:sessionStorage).setItem(KK,v)}catch(e){}store();close();draw()};
+  $("s_clear").onclick=function(){if(confirm("Delete all conversations, saved work and your key from this device?")){try{localStorage.removeItem(KEY);localStorage.removeItem(KK);sessionStorage.removeItem(KK)}catch(e){}location.reload()}}}
+ c.querySelectorAll("[data-f]").forEach(function(b){b.onclick=function(){close();if(!ready()){modal("settings","Connect an AI key first.");return}var f=FORMATS[b.dataset.f];var cc=mk("The user chose the format: "+f+". Ask concise questions for any missing essentials, then write it.");submit("I need a "+f+".",cc)}});
+ c.querySelectorAll("[data-c]").forEach(function(b){b.onclick=function(){copy(S.saved[b.dataset.c].t,b)}});
+ c.querySelectorAll("[data-d]").forEach(function(b){b.onclick=function(){S.saved.splice(b.dataset.d,1);store();modal("saved")}});
+ c.querySelectorAll("[data-e]").forEach(function(b){b.onclick=function(){var x=EX[b.dataset.e];close();if(!ready()){modal("settings","Connect an AI key first.");return}submit("Create something similar to this example for my business. Use it only as inspiration and write original copy. Ask me for anything you need.\nExample ("+x.t+", fictional): headline \""+x.h+"\"; problem: "+x.p+"; call to action: "+x.c+".",mk("Use the example only as inspiration. Never copy it word for word."))}});
+ c.querySelectorAll("[data-close]").forEach(function(b){b.onclick=close});
+}
+function close(){$("modal").classList.remove("show")}
+$("modal").onclick=function(e){if(e.target===$("modal"))close()};
+document.addEventListener("keydown",function(e){if(e.key==="Escape")close()});
+document.querySelectorAll("[data-m]").forEach(function(b){b.onclick=function(){modal(b.dataset.m);$("side").classList.remove("open")}});
+
+/* ---------- input ---------- */
+function grow(){var i=$("inp");i.style.height="auto";i.style.height=Math.min(i.scrollHeight,160)+"px"}
+$("inp").oninput=grow;
+$("inp").onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey&&window.innerWidth>800){e.preventDefault();submit($("inp").value)}};
+$("send").onclick=function(){submit($("inp").value)};
+$("newBtn").onclick=newChat;$("search").oninput=drawList;
+$("menu").onclick=function(){$("side").classList.toggle("open")};
+draw();
+</script>
+</body>
+</html>
